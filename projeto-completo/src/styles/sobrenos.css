@@ -1,0 +1,15 @@
+#sobre_nós {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente os filhos */
+    justify-content: center; /* Opcional, para centralizar verticalmente */
+    text-align: center; /* Centraliza o texto */
+    padding: 20px;
+}
+
+#img_sobre_nós img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
