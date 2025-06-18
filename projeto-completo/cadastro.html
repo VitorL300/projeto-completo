@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="/projeto-completo/projeto-completo/login.css">
+
+  <style>
+    body {
+      background-color: #ecf7e3;
+      font-family: "Poppins", sans-serif;
+    }
+
+    form {
+      width: 320px;
+      margin: 160px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    input {
+      display: block;
+      margin: 12px auto;
+      width: 90%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="submit"] {
+      background-color: #9dc08b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #f8d477;
+      color: #1d1d1d;
+    }
+
+    .link-voltar {
+      margin-top: 16px;
+      display: block;
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .link-voltar:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <form onsubmit="cadastrar(); return false;">
+    <h3>Cadastro</h3>
+    <input type="text" placeholder="Nome completo" id="nome" required>
+    <input type="email" placeholder="Email" id="email" required>
+    <input type="text" placeholder="Login" id="novoLogin" required>
+    <input type="password" placeholder="Senha" id="novaSenha" required>
+    <input type="submit" value="Cadastrar">
+    <a href="login.html" class="link-voltar">Já tem conta? Fazer login</a>
+  </form>
+
+  <script>
+    function cadastrar() {
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const login = document.getElementById('novoLogin').value.trim();
+      const senha = document.getElementById('novaSenha').value.trim();
+
+      if (!nome || !email || !login || !senha) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      // Carrega os usuários existentes do localStorage
+      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+      // Verifica se já existe o login
+      const jaExiste = usuarios.some(user => user.login === login);
+
+      if (jaExiste) {
+        alert("Este login já está cadastrado. Tente outro.");
+        return;
+      }
+
+      // Cria novo usuário
+      const novoUsuario = {
+        nome: nome,
+        email: email,
+        login: login,
+        pass: senha
+      };
+
+      // Salva no localStorage
+      usuarios.push(novoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+      alert("Cadastro realizado com sucesso!");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

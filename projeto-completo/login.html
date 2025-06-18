@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login JS</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+  <!-- Seu CSS personalizado -->
+  <link rel="stylesheet" href="/projeto-completo/projeto-completo/login.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+      background-color: #ecf7e3;
+      font-family: "Poppins", sans-serif;
+    }
+
+    form {
+      width: 320px;
+      margin: 160px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      display: block;
+      margin: 12px auto;
+      width: 90%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #btnLogar {
+      background-color: #9dc08b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #btnLogar:hover {
+      background-color: #f8d477;
+      color: #1d1d1d;
+    }
+
+    .link-cadastro {
+      margin-top: 12px;
+      display: block;
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .link-cadastro:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <form>
+    <h3>Login</h3>
+    <input type="text" placeholder="Login" id="login">
+    <input type="password" placeholder="Senha" id="senha">
+    <input type="submit" value="Entrar" id="btnLogar">
+    <a href="cadastro.html" class="link-cadastro">Não tem uma conta? Cadastre-se</a>
+  </form>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+  <!-- Script de validação -->
+  <script src="valida.js"></script>
+
+</body>
+</html>
