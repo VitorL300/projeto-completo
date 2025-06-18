@@ -1,119 +1,469 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Perfil do Usuário</title>
-  <link rel="stylesheet" href="style.css"> <!-- Ou o caminho correto -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Área do Cliente</title>
   <style>
+    /* Reset e Estilos Globais */
+    :root {
+      --primary-color: #9dc08b;
+      --secondary-color: #6c8a66;
+      --dark-color: #3a4d39;
+      --light-bg: #ecf7e3;
+      --text-color: #1d1d1d;
+      --white-color: #ffffff;
+      --border-color: #d1d1d1;
+      --danger-color: #d9534f;
+      --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
     body {
-      background-color: #ecf7e3;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+    }
+
+    /* Cabeçalho */
+    header {
+      background-color: var(--primary-color);
+      padding: 15px 30px;
+      color: var(--white-color);
+      box-shadow: var(--shadow);
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+    }
+    
+    header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
     }
 
+    .logout-btn {
+        background-color: transparent;
+        border: 1px solid var(--white-color);
+        color: var(--white-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .logout-btn:hover {
+        background-color: var(--white-color);
+        color: var(--primary-color);
+    }
+
+    /* Container Principal */
     .container {
-      background-color: #fff;
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      background-color: var(--white-color);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 40px;
     }
 
+    h2 {
+      color: var(--dark-color);
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+    
+    section:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* Seção de Perfil */
     .profile {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      margin-bottom: 24px;
+      gap: 30px;
+      flex-wrap: wrap;
     }
 
-    .profile img {
-      width: 100px;
-      height: 100px;
+    .profile-image-area {
+        text-align: center;
+        min-width: 200px;
+    }
+
+    .profile-image-area img {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-bottom: 12px;
+      border: 4px solid var(--primary-color);
+      margin-bottom: 10px;
+      /* Adicionado para preencher o ícone com uma cor de fundo */
+      background-color: #f0f0f0;
+    }
+    
+    #user-display-info {
+        margin: 10px 0;
+        color: #555;
+        line-height: 1.4;
+    }
+    #user-display-info h4 {
+        margin: 0 0 5px 0;
+        color: var(--dark-color);
+        font-size: 1.1rem;
+    }
+     #user-display-info p {
+        margin: 0;
+        font-size: 0.9rem;
     }
 
-    .profile h2 {
-      font-size: 22px;
-      color: #1d1d1d;
-      margin-bottom: 4px;
+
+    .profile-image-area input[type="file"] {
+      max-width: 200px;
+      font-size: 0.8rem;
     }
 
-    .profile p {
-      color: #666;
-      font-size: 0.95rem;
+    .profile-fields {
+      flex: 1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
     }
 
-    .info {
-      margin-top: 20px;
+    .profile-fields label {
+        font-weight: 500;
+        color: #555;
+        text-align: right;
     }
 
-    .info h3 {
-      margin-bottom: 12px;
-      color: #4d4d4d;
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea,
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: #f9f9f9;
+      transition: all 0.2s ease-in-out;
+      font-size: 1rem;
+      box-sizing: border-box;
     }
 
-    .info ul {
-      list-style: none;
-      padding: 0;
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(157, 192, 139, 0.3);
     }
 
-    .info ul li {
-      margin-bottom: 8px;
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
       color: #333;
     }
 
-    .btn_logout {
-      margin-top: 30px;
-      background-color: #f44336;
-      color: #fff;
+    .btn {
+      background-color: var(--primary-color);
       border: none;
-      padding: 12px 20px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
       font-size: 1rem;
-      border-radius: 10px;
+      font-weight: 500;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.2s ease-in-out;
     }
 
-    .btn_logout:hover {
-      background-color: #d32f2f;
+    .btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .profile-fields .btn {
+        grid-column: 2;
+    }
+
+    .alert {
+      background-color: #fffbe6;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 5px solid #ffc107;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+
+    .voucher-item, .history-item {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border: 1px solid var(--border-color);
+    }
+    
+    .voucher-item {
+        background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+        border-color: #80deea;
+        text-align: center;
+    }
+
+    .voucher-item h3 {
+        color: #006064;
+        margin: 0 0 10px 0;
+        font-size: 1rem;
+    }
+
+    .voucher-item .code {
+        background-color: var(--white-color);
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 5px;
+        border: 1px dashed var(--secondary-color);
+        color: var(--dark-color);
+    }
+
+    .history-item {
+      background-color: #f9f9f9;
+      line-height: 1.6;
+    }
+    
+    .empty-message {
+        color: #777;
+        text-align: center;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .profile { flex-direction: column; align-items: center; }
+      .profile-fields { grid-template-columns: 1fr; width: 100%; }
+      .profile-fields label { text-align: left; margin-bottom: 4px; }
+      .profile-fields .btn { grid-column: 1; width: 100%; }
+      .container { padding: 20px; }
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Área do Cliente</h1>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
 
   <div class="container">
-    <div class="profile">
-      <img src="https://i.pravatar.cc/150?img=5" alt="Foto de Perfil">
-      <h2>Vitor Ferreira</h2>
-      <p>Usuário Administrador</p>
-    </div>
+    <section id="secao-perfil">
+      <h2>Perfil do Cliente</h2>
+      <div class="profile">
+        <div class="profile-image-area">
+          <img id="profileImage" src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e" alt="Ícone de Perfil"/>
+          
+          <div id="user-display-info" style="display: none;">
+            <h4 id="displayName"></h4>
+            <p id="displayEmail"></p>
+            <p id="displayPhone"></p>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" />
+        </div>
+        <div class="profile-fields">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" placeholder="Seu nome completo">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Seu email">
+          <label for="telefone">Telefone:</label>
+          <input type="text" id="telefone" placeholder="Seu telefone">
+          <button class="btn" onclick="salvarPerfil()">Salvar Dados</button>
+        </div>
+      </div>
+    </section>
 
-    <div class="info">
-      <h3>Dados do Usuário</h3>
-      <ul>
-        <li><strong>Email:</strong> vitor@example.com</li>
-        <li><strong>Telefone:</strong> (11) 91234-5678</li>
-        <li><strong>CPF:</strong> 123.456.789-00</li>
-        <li><strong>Status:</strong> Ativo</li>
-      </ul>
-    </div>
+    <section id="secao-coleta">
+      <h2>Agendar Nova Coleta</h2>
+      <div class="alert">
+        <strong>Horário de Coleta:</strong><br>
+        • Segunda a Sexta: 09:00 às 19:00<br>
+        • Sábado: 09:00 às 14:00. Não coletamos aos domingos.
+      </div>
+      <label for="produto">Selecione o produto:</label>
+      <select id="produto">
+        <option value="">-- Selecione um item --</option>
+        <option>iPhone</option><option>Smartphone</option><option>Ferro Elétrico</option><option>Tablet</option><option>Computador</option><option>Máquina de Lavar</option><option>Geladeira</option><option>Máquina Fotográfica</option><option>Notebook</option><option>Ar-condicionado</option><option>Video Game</option><option>Aparelho de Som</option><option>DVD Player</option><option>Impressora</option><option>Projetor</option><option>HD Externo</option><option>TV</option><option>Smartwatch</option><option>Leitor de Livro Eletrônico</option><option>Calculadora</option><option>Aparelho de Barbear</option><option>Aparelho de Depilação</option><option>Aspirador de Pó</option><option>Churrasqueira Elétrica</option><option>Outro</option>
+      </select>
+      <label for="dataHora">Data e horário da coleta:</label>
+      <input type="datetime-local" id="dataHora">
+      <label for="descricao">Descrição (opcional):</label>
+      <textarea id="descricao" rows="4" placeholder="Ex: produto com arranhões, tela quebrada, etc."></textarea>
+      <button class="btn" onclick="agendarColeta()">Agendar Coleta</button>
+    </section>
 
-    <button class="btn_logout" onclick="logout()">Sair</button>
+    <section id="secao-historico">
+        <h2>Histórico de Coletas</h2>
+        <div id="historico-lista"></div>
+    </section>
+
+    <section id="secao-vouchers">
+      <h2>Seus Vouchers de Desconto</h2>
+      <div id="vouchers-lista"></div>
+    </section>
   </div>
 
-  <script>
-    function logout() {
-      alert('Sessão encerrada!');
-      window.location.href = 'login.html';
+<script>
+    function exibirDadosPerfil(perfil) {
+        const displayDiv = document.getElementById('user-display-info');
+        if (perfil && perfil.nome) {
+            document.getElementById('displayName').textContent = perfil.nome;
+            document.getElementById('displayEmail').textContent = perfil.email;
+            document.getElementById('displayPhone').textContent = perfil.telefone;
+            displayDiv.style.display = 'block';
+        } else {
+            displayDiv.style.display = 'none';
+        }
     }
+
+    function salvarPerfil() {
+      const perfil = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+      };
+      if (!perfil.nome || !perfil.email || !perfil.telefone) {
+        alert('Por favor, preencha todos os campos do perfil.');
+        return;
+      }
+      localStorage.setItem('perfil', JSON.stringify(perfil));
+      exibirDadosPerfil(perfil);
+      alert('Perfil salvo com sucesso!');
+    }
+
+    function logout() {
+        if (confirm("Você tem certeza que deseja sair?")) {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById('profileImage').src = reader.result;
+          localStorage.setItem('fotoPerfil', reader.result);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+
+    function gerarCodigoVoucher() {
+        const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
+        return `ECO-${randomChars}`;
+    }
+
+    function renderizarHistoricoEVouchers() {
+        const historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
+        const historicoContainer = document.getElementById('historico-lista');
+        const vouchersContainer = document.getElementById('vouchers-lista');
+
+        historicoContainer.innerHTML = '';
+        vouchersContainer.innerHTML = '';
+
+        if (historico.length === 0) {
+            historicoContainer.innerHTML = '<p class="empty-message">Nenhum agendamento realizado ainda.</p>';
+            vouchersContainer.innerHTML = '<p class="empty-message">Nenhum voucher gerado.</p>';
+            return;
+        }
+
+        historico.slice().reverse().forEach(agendamento => {
+            const dataFormatada = new Date(agendamento.dataHora).toLocaleString('pt-BR', { dateStyle: 'full', timeStyle: 'short' });
+
+            const historicoItem = document.createElement('div');
+            historicoItem.className = 'history-item';
+            historicoItem.innerHTML = `
+                <strong>Produto:</strong> ${agendamento.produto}<br>
+                <strong>Data:</strong> ${dataFormatada}<br>
+                <strong>Descrição:</strong> ${agendamento.descricao || 'Nenhuma'}
+            `;
+            historicoContainer.appendChild(historicoItem);
+
+            const voucherItem = document.createElement('div');
+            voucherItem.className = 'voucher-item';
+            voucherItem.innerHTML = `
+                <h3>Voucher pelo descarte de: ${agendamento.produto}</h3>
+                <p>Use o código: <span class="code">${agendamento.voucher}</span></p>
+            `;
+            vouchersContainer.appendChild(voucherItem);
+        });
+    }
+
+    function agendarColeta() {
+      const dataHoraValor = document.getElementById('dataHora').value;
+      if (!document.getElementById('produto').value || !dataHoraValor) {
+        alert('Por favor, selecione o produto e a data/hora da coleta.');
+        return;
+      }
+      
+      const dataAgendada = new Date(dataHoraValor);
+      const diaDaSemana = dataAgendada.getDay();
+      const hora = dataAgendada.getHours();
+
+      if (diaDaSemana === 0) {
+          alert("Desculpe, não fazemos coletas aos domingos.");
+          return;
+      }
+      if (diaDaSemana === 6 && (hora < 9 || hora >= 14)) {
+          alert("Aos sábados, nosso horário de coleta é das 09:00 às 14:00.");
+          return;
+      }
+      if (diaDaSemana > 0 && diaDaSemana < 6 && (hora < 9 || hora >= 19)) {
+          alert("Nosso horário de coleta durante a semana é das 09:00 às 19:00.");
+          return;
+      }
+
+      const novoAgendamento = {
+          produto: document.getElementById('produto').value,
+          dataHora: dataHoraValor,
+          descricao: document.getElementById('descricao').value,
+          voucher: gerarCodigoVoucher()
+      };
+
+      const historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
+      historico.push(novoAgendamento);
+      localStorage.setItem('historicoAgendamentos', JSON.stringify(historico));
+      
+      alert('Coleta agendada com sucesso! Um novo voucher foi gerado.');
+      
+      document.getElementById('produto').value = '';
+      document.getElementById('dataHora').value = '';
+      document.getElementById('descricao').value = '';
+
+      renderizarHistoricoEVouchers();
+    }
+
+    window.onload = function () {
+      const perfil = JSON.parse(localStorage.getItem('perfil'));
+      if (perfil) {
+        document.getElementById('nome').value = perfil.nome;
+        document.getElementById('email').value = perfil.email;
+        document.getElementById('telefone').value = perfil.telefone;
+        exibirDadosPerfil(perfil);
+      }
+
+      const foto = localStorage.getItem('fotoPerfil');
+      if (foto) {
+        document.getElementById('profileImage').src = foto;
+      }
+      
+      renderizarHistoricoEVouchers();
+    };
   </script>
 </body>
 </html>

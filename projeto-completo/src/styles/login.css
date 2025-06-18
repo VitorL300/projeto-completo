@@ -1,0 +1,136 @@
+body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ecf7e3;
+    }
+
+    header {
+      background-color: #9dc08b;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    h2 {
+      color: #3a4d39;
+      margin-bottom: 16px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 30px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .profile img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+    }
+
+    .profile input[type="file"] {
+      margin-top: 10px;
+    }
+
+    .profile-fields .field-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 0;
+    }
+    
+    .profile-fields .field-group span {
+        font-weight: bold;
+        color: #3a4d39;
+        min-width: 70px; /* Adiciona largura mínima para alinhar os campos */
+    }
+
+    .profile-fields input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background-color: #9dc08b;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    .btn:hover {
+      background-color: #7a9e6b;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select, textarea, input[type="datetime-local"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .alert {
+      background-color: #fff3cd;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 6px solid #ffca2c;
+      margin-bottom: 20px;
+    }
+
+    .voucher {
+      background-color: #e0f7fa;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .voucher h3 {
+      color: #00796b;
+    }
+
+    .history {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .profile {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
