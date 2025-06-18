@@ -193,7 +193,6 @@
         grid-column: 2;
     }
     
-    /* --- NOVO: Estilos para a caixa de instruções --- */
     .instrucoes-descarte {
         background-color: #f9f9f9;
         padding: 20px;
@@ -270,6 +269,16 @@
         background-color: #f5f5f5;
         border-radius: 8px;
     }
+    
+    /* --- NOVO: Estilos para agrupar campos de endereço --- */
+    .form-row {
+        display: flex;
+        gap: 16px;
+    }
+    .form-group {
+        flex: 1;
+    }
+
 
     @media (max-width: 600px) {
       .profile { flex-direction: column; align-items: center; }
@@ -277,6 +286,7 @@
       .profile-fields label { text-align: left; margin-bottom: 4px; }
       .profile-fields .btn { grid-column: 1; width: 100%; }
       .container { padding: 20px; }
+      .form-row { flex-direction: column; gap: 0; }
     }
   </style>
 </head>
@@ -329,15 +339,33 @@
         • Segunda a Sexta: 09:00 às 19:00<br>
         • Sábado: 09:00 às 14:00. Não coletamos aos domingos.
       </div>
+      
       <label for="produto">Selecione o produto:</label>
       <select id="produto">
         <option value="">-- Selecione um item --</option>
         <option>iPhone</option><option>Smartphone</option><option>Ferro Elétrico</option><option>Tablet</option><option>Computador</option><option>Máquina de Lavar</option><option>Geladeira</option><option>Máquina Fotográfica</option><option>Notebook</option><option>Ar-condicionado</option><option>Video Game</option><option>Aparelho de Som</option><option>DVD Player</option><option>Impressora</option><option>Projetor</option><option>HD Externo</option><option>TV</option><option>Smartwatch</option><option>Leitor de Livro Eletrônico</option><option>Calculadora</option><option>Aparelho de Barbear</option><option>Aparelho de Depilação</option><option>Aspirador de Pó</option><option>Churrasqueira Elétrica</option><option>Outro</option>
       </select>
+      
+      <label for="cep">CEP:</label>
+      <input type="text" id="cep" placeholder="00000-000">
+
+      <div class="form-row">
+          <div class="form-group" style="flex: 3;">
+              <label for="endereco">Endereço:</label>
+              <input type="text" id="endereco" placeholder="Sua rua ou avenida">
+          </div>
+          <div class="form-group" style="flex: 1;">
+              <label for="numero">Número:</label>
+              <input type="text" id="numero" placeholder="Nº">
+          </div>
+      </div>
+      
       <label for="dataHora">Data e horário da coleta:</label>
       <input type="datetime-local" id="dataHora">
+      
       <label for="descricao">Descrição (opcional):</label>
       <textarea id="descricao" rows="4" placeholder="Ex: produto com arranhões, tela quebrada, etc."></textarea>
+      
       <button class="btn" onclick="agendarColeta()">Agendar Coleta</button>
     </section>
 
@@ -422,8 +450,10 @@
 
             const historicoItem = document.createElement('div');
             historicoItem.className = 'history-item';
+            // EXIBIÇÃO DO ENDEREÇO NO HISTÓRICO
             historicoItem.innerHTML = `
                 <strong>Produto:</strong> ${agendamento.produto}<br>
+                <strong>Endereço da Coleta:</strong> ${agendamento.endereco}, ${agendamento.numero} - CEP: ${agendamento.cep}<br>
                 <strong>Data:</strong> ${dataFormatada}<br>
                 <strong>Descrição:</strong> ${agendamento.descricao || 'Nenhuma'}
             `;
@@ -440,9 +470,16 @@
     }
 
     function agendarColeta() {
+      // CAPTURA DOS NOVOS CAMPOS DE ENDEREÇO
+      const cep = document.getElementById('cep').value;
+      const endereco = document.getElementById('endereco').value;
+      const numero = document.getElementById('numero').value;
       const dataHoraValor = document.getElementById('dataHora').value;
-      if (!document.getElementById('produto').value || !dataHoraValor) {
-        alert('Por favor, selecione o produto e a data/hora da coleta.');
+      const produto = document.getElementById('produto').value;
+
+      // VALIDAÇÃO DOS CAMPOS
+      if (!produto || !cep || !endereco || !numero || !dataHoraValor) {
+        alert('Por favor, preencha todos os campos do agendamento, incluindo o endereço completo.');
         return;
       }
       
@@ -463,8 +500,12 @@
           return;
       }
 
+      // SALVANDO O ENDEREÇO NO OBJETO DE AGENDAMENTO
       const novoAgendamento = {
-          produto: document.getElementById('produto').value,
+          produto: produto,
+          cep: cep,
+          endereco: endereco,
+          numero: numero,
           dataHora: dataHoraValor,
           descricao: document.getElementById('descricao').value,
           voucher: gerarCodigoVoucher()
@@ -476,12 +517,46 @@
       
       alert('Coleta agendada com sucesso! Um novo voucher foi gerado.');
       
+      // LIMPEZA DOS CAMPOS DO FORMULÁRIO
       document.getElementById('produto').value = '';
+      document.getElementById('cep').value = '';
+      document.getElementById('endereco').value = '';
+      document.getElementById('numero').value = '';
       document.getElementById('dataHora').value = '';
       document.getElementById('descricao').value = '';
 
       renderizarHistoricoEVouchers();
     }
+    
+    // --- NOVO: FUNÇÃO PARA BUSCAR ENDEREÇO PELO CEP (API ViaCEP) ---
+    const cepInput = document.getElementById('cep');
+    cepInput.addEventListener('blur', async () => {
+        const cep = cepInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (cep.length !== 8) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                alert('CEP não encontrado. Por favor, verifique e digite o endereço manualmente.');
+                return;
+            }
+
+            document.getElementById('endereco').value = data.logradouro;
+            // Opcional: preencher outros campos como bairro, cidade, etc.
+            // document.getElementById('bairro').value = data.bairro; 
+            
+            // Foca no campo de número para o usuário preencher em seguida
+            document.getElementById('numero').focus();
+
+        } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Não foi possível buscar o CEP. Por favor, digite o endereço manualmente.');
+        }
+    });
 
     window.onload = function () {
       const perfil = JSON.parse(localStorage.getItem('perfil'));
