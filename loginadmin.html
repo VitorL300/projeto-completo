@@ -23,7 +23,7 @@
             border-radius: 16px;
             box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border-top: 5px solid #3a4d39; /* Destaque de admin */
+            border-top: 5px solid #3a4d39;
         }
         h3 {
             color: #3a4d39;
@@ -41,7 +41,7 @@
             border: 1px solid #ccc;
         }
         #btnLogarAdmin {
-            background-color: #6c8a66; /* Cor diferente para botão de admin */
+            background-color: #6c8a66;
             color: white;
             border: none;
             cursor: pointer;
@@ -74,24 +74,18 @@
     </form>
 
 <script>
-    // Adiciona o listener para o formulário de login do admin
     document.getElementById('admin-login-form').addEventListener('submit', function(event) {
-        // Previne o envio padrão do formulário, que recarregaria a página
         event.preventDefault();
 
-        // Credenciais do administrador (fixas no código para esta simulação)
-        // Em um projeto real, isso viria de um banco de dados seguro.
         const ADMIN_USER = 'admin';
         const ADMIN_PASS = 'admin123';
 
-        // Pega os valores digitados pelo usuário
         const loginDigitado = document.getElementById('loginAdmin').value;
         const senhaDigitada = document.getElementById('senhaAdmin').value;
 
-        // Validação
         if (loginDigitado === ADMIN_USER && senhaDigitada === ADMIN_PASS) {
             alert('Login de administrador bem-sucedido! Redirecionando...');
-            // Redireciona para a página do painel de administrador
+            // Redirecionamento aponta para 'admin.html' (minúsculas)
             window.location.href = 'admin.html';
         } else {
             alert('Login ou senha de administrador incorretos. Tente novamente.');
