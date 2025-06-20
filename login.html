@@ -6,100 +6,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            width: 100%;
-            height: 100%;
-            background-color: #ecf7e3;
-            font-family: "Poppins", sans-serif;
-        }
-        form {
-            width: 320px;
-            margin: 160px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h3 {
-            color: #3a4d39;
-        }
-        input[type="text"],
-        input[type="password"],
-        input[type="submit"] {
-            display: block;
-            margin: 12px auto;
-            width: 90%;
-            padding: 10px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        #btnLogar {
-            background-color: #9dc08b;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #btnLogar:hover {
-            background-color: #7a9e6b;
-        }
-        .link-cadastro {
-            margin-top: 12px;
-            display: block;
-            color: #0066cc;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-        .link-cadastro:hover {
-            text-decoration: underline;
-        }
-        .link-admin {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            display: block;
-            color: #555;
-            font-size: 0.85rem;
-            text-decoration: none;
-        }
-        .link-admin:hover {
-            text-decoration: underline;
-        }
+        * { box-sizing: border-box; }
+        body { width: 100%; height: 100%; background-color: #ecf7e3; font-family: "Poppins", sans-serif; }
+        form { width: 320px; margin: 160px auto; background-color: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.1); text-align: center; }
+        h3 { color: #3a4d39; }
+        input[type="text"], input[type="password"], input[type="submit"] { display: block; margin: 12px auto; width: 100%; padding: 10px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; }
+        #btnLogar { background-color: #9dc08b; color: white; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease; }
+        #btnLogar:hover { background-color: #7a9e6b; }
+        .link-cadastro { margin-top: 12px; display: block; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
+        .link-cadastro:hover { text-decoration: underline; }
+        .link-admin { margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; display: block; color: #555; font-size: 0.85rem; text-decoration: none; }
+        .link-admin:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-
     <form id="user-login-form">
         <h3>Login do Cliente</h3>
         <input type="text" placeholder="Login" id="login" required>
         <input type="password" placeholder="Senha" id="senha" required>
         <input type="submit" value="Entrar" id="btnLogar">
         <a href="cadastro.html" class="link-cadastro">Não tem uma conta? Cadastre-se</a>
-        
         <a href="loginadmin.html" class="link-admin">Entrar como Administrador</a>
-        </form>
+    </form>
 
-<script>
-    document.getElementById('user-login-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-        const loginDigitado = document.getElementById('login').value;
-        const senhaDigitada = document.getElementById('senha').value;
-        const usuarioEncontrado = usuarios.find(user => user.login === loginDigitado && user.pass === senhaDigitada);
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
+            authDomain: "projeto-completo-96c06.firebaseapp.com",
+            projectId: "projeto-completo-96c06",
+            storageBucket: "projeto-completo-96c06.appspot.com",
+            messagingSenderId: "100970618515",
+            appId: "1:100970618515:web:01ff6d667c0d542abe3766"
+        };
 
-        if (usuarioEncontrado) {
-            alert(`Bem-vindo, ${usuarioEncontrado.nome}!`);
-            window.location.href = 'home.html';
-        } else {
-            alert('Login ou senha incorretos. Verifique seus dados ou cadastre-se.');
-        }
-    });
-</script>
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
+        document.getElementById('user-login-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const loginDigitado = document.getElementById('login').value;
+            const senhaDigitada = document.getElementById('senha').value;
+
+            try {
+                const querySnapshot = await db.collection("usuarios")
+                    .where("login", "==", loginDigitado)
+                    .where("pass", "==", senhaDigitada)
+                    .get();
+
+                if (querySnapshot.empty) {
+                    alert('Login ou senha incorretos.');
+                } else {
+                    const usuario = querySnapshot.docs[0].data();
+                    alert(`Bem-vindo, ${usuario.nome}!`);
+                    
+                    sessionStorage.setItem('usuarioLogado', JSON.stringify({id: querySnapshot.docs[0].id, ...usuario}));
+                    
+                    window.location.href = 'home.html';
+                }
+            } catch (error) {
+                console.error("Erro ao fazer login: ", error);
+                alert('Ocorreu um erro ao tentar fazer login.');
+            }
+        });
+    </script>
 </body>
 </html>

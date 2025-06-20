@@ -1,114 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
-  <link rel="stylesheet" href="/projeto-completo/projeto-completo/login.css">
-
-  <style>
-    body {
-      background-color: #ecf7e3;
-      font-family: "Poppins", sans-serif;
-    }
-
-    form {
-      width: 320px;
-      margin: 160px auto;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    input {
-      display: block;
-      margin: 12px auto;
-      width: 90%;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    input[type="submit"] {
-      background-color: #9dc08b;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #f8d477;
-      color: #1d1d1d;
-    }
-
-    .link-voltar {
-      margin-top: 16px;
-      display: block;
-      color: #0066cc;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-
-    .link-voltar:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crie sua Conta</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { width: 100%; height: 100%; background-color: #ecf7e3; font-family: "Poppins", sans-serif; }
+        form { width: 380px; margin: 100px auto; background-color: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.1); text-align: center; }
+        h3 { color: #3a4d39; }
+        input[type="text"], input[type="email"], input[type="password"], input[type="submit"] { display: block; margin: 12px auto; width: 100%; padding: 10px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; }
+        input[type="submit"] { background-color: #9dc08b; color: white; border: none; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; }
+        input[type="submit"]:hover { background-color: #7a9e6b; }
+        a { margin-top: 12px; display: inline-block; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
+    <form id="cadastro-form">
+        <h3>Crie sua Conta</h3>
+        <input type="text" id="nome" placeholder="Nome Completo" required>
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="text" id="login" placeholder="Login (nome de usuário)" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+        <input type="submit" value="Cadastrar">
+        <a href="login.html">Já tem uma conta? Faça login</a>
+    </form>
 
-  <form onsubmit="cadastrar(); return false;">
-    <h3>Cadastro</h3>
-    <input type="text" placeholder="Nome completo" id="nome" required>
-    <input type="email" placeholder="Email" id="email" required>
-    <input type="text" placeholder="Login" id="novoLogin" required>
-    <input type="password" placeholder="Senha" id="novaSenha" required>
-    <input type="submit" value="Cadastrar">
-    <a href="login.html" class="link-voltar">Já tem conta? Fazer login</a>
-  </form>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
+            authDomain: "projeto-completo-96c06.firebaseapp.com",
+            projectId: "projeto-completo-96c06",
+            storageBucket: "projeto-completo-96c06.appspot.com",
+            messagingSenderId: "100970618515",
+            appId: "1:100970618515:web:01ff6d667c0d542abe3766"
+        };
 
-  <script>
-    function cadastrar() {
-      const nome = document.getElementById('nome').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const login = document.getElementById('novoLogin').value.trim();
-      const senha = document.getElementById('novaSenha').value.trim();
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-      if (!nome || !email || !login || !senha) {
-        alert("Por favor, preencha todos os campos.");
-        return;
-      }
+        document.getElementById('cadastro-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-      // Carrega os usuários existentes do localStorage
-      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const novoUsuario = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                login: document.getElementById('login').value,
+                pass: document.getElementById('senha').value
+            };
 
-      // Verifica se já existe o login
-      const jaExiste = usuarios.some(user => user.login === login);
-
-      if (jaExiste) {
-        alert("Este login já está cadastrado. Tente outro.");
-        return;
-      }
-
-      // Cria novo usuário
-      const novoUsuario = {
-        nome: nome,
-        email: email,
-        login: login,
-        pass: senha
-      };
-
-      // Salva no localStorage
-      usuarios.push(novoUsuario);
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-      alert("Cadastro realizado com sucesso!");
-      window.location.href = "login.html";
-    }
-  </script>
-
+            try {
+                await db.collection("usuarios").add(novoUsuario);
+                alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Erro ao cadastrar usuário: ", error);
+                alert('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
+            }
+        });
+    </script>
 </body>
 </html>

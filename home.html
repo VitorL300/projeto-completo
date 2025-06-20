@@ -1,579 +1,191 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Área do Cliente</title>
-  <style>
-    /* Reset e Estilos Globais */
-    :root {
-      --primary-color: #9dc08b;
-      --secondary-color: #6c8a66;
-      --dark-color: #3a4d39;
-      --light-bg: #ecf7e3;
-      --text-color: #1d1d1d;
-      --white-color: #ffffff;
-      --border-color: #d1d1d1;
-      --danger-color: #d9534f;
-      --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    body {
-      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--light-bg);
-      color: var(--text-color);
-    }
-
-    /* Cabeçalho */
-    header {
-      background-color: var(--primary-color);
-      padding: 15px 30px;
-      color: var(--white-color);
-      box-shadow: var(--shadow);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    header h1 {
-        margin: 0;
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-
-    .logout-btn {
-        background-color: transparent;
-        border: 1px solid var(--white-color);
-        color: var(--white-color);
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .logout-btn:hover {
-        background-color: var(--white-color);
-        color: var(--primary-color);
-    }
-
-    /* Container Principal */
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      background-color: var(--white-color);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 40px;
-    }
-
-    h2 {
-      color: var(--dark-color);
-      margin-top: 0;
-      margin-bottom: 24px;
-      font-weight: 600;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 16px;
-    }
-
-    section {
-      margin-bottom: 40px;
-    }
-    
-    section:last-of-type {
-        margin-bottom: 0;
-    }
-
-    /* Seção de Perfil */
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    .profile-image-area {
-        text-align: center;
-        min-width: 200px;
-    }
-
-    .profile-image-area img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid var(--primary-color);
-      margin-bottom: 10px;
-      background-color: #f0f0f0;
-    }
-    
-    #user-display-info {
-        margin: 10px 0;
-        color: #555;
-        line-height: 1.4;
-    }
-    #user-display-info h4 {
-        margin: 0 0 5px 0;
-        color: var(--dark-color);
-        font-size: 1.1rem;
-    }
-     #user-display-info p {
-        margin: 0;
-        font-size: 0.9rem;
-    }
-
-
-    .profile-image-area input[type="file"] {
-      max-width: 200px;
-      font-size: 0.8rem;
-    }
-
-    .profile-fields {
-      flex: 1;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .profile-fields label {
-        font-weight: 500;
-        color: #555;
-        text-align: right;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    select,
-    textarea,
-    input[type="datetime-local"] {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background-color: #f9f9f9;
-      transition: all 0.2s ease-in-out;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    input:focus, select:focus, textarea:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(157, 192, 139, 0.3);
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 6px;
-      display: block;
-      color: #333;
-    }
-
-    .btn {
-      background-color: var(--primary-color);
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      color: white;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background-color 0.2s ease-in-out;
-    }
-
-    .btn:hover {
-      background-color: var(--secondary-color);
-    }
-
-    .profile-fields .btn {
-        grid-column: 2;
-    }
-    
-    .instrucoes-descarte {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        border: 1px solid var(--border-color);
-    }
-    .instrucoes-descarte h4 {
-        margin-top: 0;
-        margin-bottom: 15px;
-        color: var(--dark-color);
-        font-weight: 600;
-    }
-    .instrucoes-descarte ol {
-        margin: 0;
-        padding-left: 20px;
-        line-height: 1.7;
-    }
-    .instrucoes-descarte li {
-        margin-bottom: 10px;
-    }
-    .instrucoes-descarte li:last-child {
-        margin-bottom: 0;
-    }
-
-    .alert {
-      background-color: #fffbe6;
-      padding: 16px;
-      border-radius: 8px;
-      border-left: 5px solid #ffc107;
-      margin: 20px 0;
-      font-size: 0.95rem;
-    }
-
-    .voucher-item, .history-item {
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        border: 1px solid var(--border-color);
-    }
-    
-    .voucher-item {
-        background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-        border-color: #80deea;
-        text-align: center;
-    }
-
-    .voucher-item h3 {
-        color: #006064;
-        margin: 0 0 10px 0;
-        font-size: 1rem;
-    }
-
-    .voucher-item .code {
-        background-color: var(--white-color);
-        padding: 8px 15px;
-        border-radius: 6px;
-        font-weight: bold;
-        display: inline-block;
-        margin-top: 5px;
-        border: 1px dashed var(--secondary-color);
-        color: var(--dark-color);
-    }
-
-    .history-item {
-      background-color: #f9f9f9;
-      line-height: 1.6;
-    }
-    
-    .empty-message {
-        color: #777;
-        text-align: center;
-        padding: 20px;
-        background-color: #f5f5f5;
-        border-radius: 8px;
-    }
-    
-    /* --- NOVO: Estilos para agrupar campos de endereço --- */
-    .form-row {
-        display: flex;
-        gap: 16px;
-    }
-    .form-group {
-        flex: 1;
-    }
-
-
-    @media (max-width: 600px) {
-      .profile { flex-direction: column; align-items: center; }
-      .profile-fields { grid-template-columns: 1fr; width: 100%; }
-      .profile-fields label { text-align: left; margin-bottom: 4px; }
-      .profile-fields .btn { grid-column: 1; width: 100%; }
-      .container { padding: 20px; }
-      .form-row { flex-direction: column; gap: 0; }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Área do Cliente</title>
+    <style>
+        :root {
+            --primary-color: #9dc08b; --secondary-color: #6c8a66; --dark-color: #3a4d39; --light-bg: #ecf7e3; --text-color: #1d1d1d; --white-color: #ffffff; --border-color: #d1d1d1; --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--light-bg); color: var(--text-color); }
+        header { background-color: var(--primary-color); padding: 15px 30px; color: var(--white-color); box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+        .logout-btn { background-color: transparent; border: 1px solid var(--white-color); color: var(--white-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease-in-out; }
+        .logout-btn:hover { background-color: var(--white-color); color: var(--primary-color); }
+        .container { max-width: 800px; margin: 30px auto; background-color: var(--white-color); border-radius: 16px; box-shadow: var(--shadow); padding: 40px; }
+        h2 { color: var(--dark-color); margin-top: 0; margin-bottom: 24px; font-weight: 600; border-bottom: 1px solid #eee; padding-bottom: 16px; }
+        section { margin-bottom: 40px; }
+        section:last-of-type { margin-bottom: 0; }
+        .profile { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+        .profile-image-area { text-align: center; min-width: 200px; }
+        .profile-image-area img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); margin-bottom: 10px; background-color: #f0f0f0; }
+        #user-display-info { margin: 10px 0; color: #555; line-height: 1.4; }
+        #user-display-info h4 { margin: 0 0 5px 0; color: var(--dark-color); font-size: 1.1rem; }
+        #user-display-info p { margin: 0; font-size: 0.9rem; }
+        input[type="text"], input[type="email"], select, textarea, input[type="datetime-local"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #f9f9f9; transition: all 0.2s ease-in-out; font-size: 1rem; box-sizing: border-box; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(157, 192, 139, 0.3); }
+        label { font-weight: 500; margin-bottom: 6px; display: block; color: #333; }
+        .btn { background-color: var(--primary-color); border: none; padding: 12px 24px; border-radius: 8px; color: white; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 10px; transition: background-color 0.2s ease-in-out; }
+        .btn:hover { background-color: var(--secondary-color); }
+        .form-row { display: flex; gap: 16px; }
+        .form-group { flex: 1; }
+        .history-item { background-color: #f9f9f9; line-height: 1.6; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+        .empty-message { color: #777; text-align: center; padding: 20px; background-color: #f5f5f5; border-radius: 8px; }
+        @media (max-width: 600px) { .profile { flex-direction: column; align-items: center; } .form-row { flex-direction: column; gap: 0; } }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Área do Cliente</h1>
-    <button class="logout-btn" onclick="logout()">Sair</button>
-  </header>
+    <header>
+        <h1>Área do Cliente</h1>
+        <button class="logout-btn" onclick="logout()">Sair</button>
+    </header>
+    <div class="container">
+        <section id="secao-perfil">
+            <h2>Bem-vindo(a)!</h2>
+            <div class="profile">
+                <div class="profile-image-area">
+                    <img id="profileImage" src="data:image/svg+xml,..." alt="Ícone de Perfil"/>
+                    <div id="user-display-info">
+                        <h4 id="displayName">Carregando...</h4>
+                        <p id="displayEmail"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="secao-coleta">
+            <form id="form-coleta">
+                <h2>Agendar Nova Coleta</h2>
+                <label for="produto">Selecione o produto:</label>
+                <select id="produto">
+                    <option value="">-- Selecione um item --</option>
+                    <option>iPhone</option><option>Smartphone</option><option>Notebook</option><option>Outro</option>
+                </select>
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" placeholder="00000-000">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label for="endereco">Endereço:</label>
+                        <input type="text" id="endereco" placeholder="Sua rua ou avenida">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="numero">Número:</label>
+                        <input type="text" id="numero" placeholder="Nº">
+                    </div>
+                </div>
+                <label for="dataHora">Data e horário da coleta:</label>
+                <input type="datetime-local" id="dataHora">
+                <label for="descricao">Descrição (opcional):</label>
+                <textarea id="descricao" rows="4" placeholder="Ex: produto com arranhões, etc."></textarea>
+                <button type="submit" class="btn">Agendar Coleta</button>
+            </form>
+        </section>
+        <section id="secao-historico">
+            <h2>Histórico de Coletas</h2>
+            <div id="historico-lista"></div>
+        </section>
+    </div>
 
-  <div class="container">
-    <section id="secao-perfil">
-      <h2>Perfil do Cliente</h2>
-      <div class="profile">
-        <div class="profile-image-area">
-          <img id="profileImage" src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e" alt="Ícone de Perfil"/>
-          
-          <div id="user-display-info" style="display: none;">
-            <h4 id="displayName"></h4>
-            <p id="displayEmail"></p>
-            <p id="displayPhone"></p>
-          </div>
-          <input type="file" id="fileInput" accept="image/*" />
-        </div>
-        <div class="profile-fields">
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" placeholder="Seu nome completo">
-          <label for="email">Email:</label>
-          <input type="email" id="email" placeholder="Seu email">
-          <label for="telefone">Telefone:</label>
-          <input type="text" id="telefone" placeholder="Seu telefone">
-          <button class="btn" onclick="salvarPerfil()">Salvar Dados</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="secao-coleta">
-      <h2>Agendar Nova Coleta</h2>
-      
-      <div class="instrucoes-descarte">
-          <h4>Passos para o descarte correto:</h4>
-          <ol>
-              <li><strong>Separação:</strong> Retire os eletrônicos da coleta de lixo comum e separe-os para descarte adequado.</li>
-              <li><strong>Limpeza e Desconexão:</strong> Certifique-se de que os aparelhos estejam limpos e desconectados de fontes de energia antes do descarte.</li>
-              <li><strong>Apagar Dados:</strong> Remova todos os dados pessoais, como fotos, vídeos e contatos, especialmente em computadores, notebooks e celulares.</li>
-          </ol>
-      </div>
-
-      <div class="alert">
-        <strong>Horário de Coleta:</strong><br>
-        • Segunda a Sexta: 09:00 às 19:00<br>
-        • Sábado: 09:00 às 14:00. Não coletamos aos domingos.
-      </div>
-      
-      <label for="produto">Selecione o produto:</label>
-      <select id="produto">
-        <option value="">-- Selecione um item --</option>
-        <option>iPhone</option><option>Smartphone</option><option>Ferro Elétrico</option><option>Tablet</option><option>Computador</option><option>Máquina de Lavar</option><option>Geladeira</option><option>Máquina Fotográfica</option><option>Notebook</option><option>Ar-condicionado</option><option>Video Game</option><option>Aparelho de Som</option><option>DVD Player</option><option>Impressora</option><option>Projetor</option><option>HD Externo</option><option>TV</option><option>Smartwatch</option><option>Leitor de Livro Eletrônico</option><option>Calculadora</option><option>Aparelho de Barbear</option><option>Aparelho de Depilação</option><option>Aspirador de Pó</option><option>Churrasqueira Elétrica</option><option>Outro</option>
-      </select>
-      
-      <label for="cep">CEP:</label>
-      <input type="text" id="cep" placeholder="00000-000">
-
-      <div class="form-row">
-          <div class="form-group" style="flex: 3;">
-              <label for="endereco">Endereço:</label>
-              <input type="text" id="endereco" placeholder="Sua rua ou avenida">
-          </div>
-          <div class="form-group" style="flex: 1;">
-              <label for="numero">Número:</label>
-              <input type="text" id="numero" placeholder="Nº">
-          </div>
-      </div>
-      
-      <label for="dataHora">Data e horário da coleta:</label>
-      <input type="datetime-local" id="dataHora">
-      
-      <label for="descricao">Descrição (opcional):</label>
-      <textarea id="descricao" rows="4" placeholder="Ex: produto com arranhões, tela quebrada, etc."></textarea>
-      
-      <button class="btn" onclick="agendarColeta()">Agendar Coleta</button>
-    </section>
-
-    <section id="secao-historico">
-        <h2>Histórico de Coletas</h2>
-        <div id="historico-lista"></div>
-    </section>
-
-    <section id="secao-vouchers">
-      <h2>Seus Vouchers de Desconto</h2>
-      <div id="vouchers-lista"></div>
-    </section>
-  </div>
-
-<script>
-    function exibirDadosPerfil(perfil) {
-        const displayDiv = document.getElementById('user-display-info');
-        if (perfil && perfil.nome) {
-            document.getElementById('displayName').textContent = perfil.nome;
-            document.getElementById('displayEmail').textContent = perfil.email;
-            document.getElementById('displayPhone').textContent = perfil.telefone;
-            displayDiv.style.display = 'block';
-        } else {
-            displayDiv.style.display = 'none';
-        }
-    }
-
-    function salvarPerfil() {
-      const perfil = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        telefone: document.getElementById('telefone').value,
-      };
-      if (!perfil.nome || !perfil.email || !perfil.telefone) {
-        alert('Por favor, preencha todos os campos do perfil.');
-        return;
-      }
-      localStorage.setItem('perfil', JSON.stringify(perfil));
-      exibirDadosPerfil(perfil);
-      alert('Perfil salvo com sucesso!');
-    }
-
-    function logout() {
-        if (confirm("Você tem certeza que deseja sair?")) {
-            localStorage.clear();
-            window.location.href = 'index.html';
-        }
-    }
-
-    document.getElementById('fileInput').addEventListener('change', function (e) {
-      if (e.target.files && e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function () {
-          document.getElementById('profileImage').src = reader.result;
-          localStorage.setItem('fotoPerfil', reader.result);
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
+            authDomain: "projeto-completo-96c06.firebaseapp.com",
+            projectId: "projeto-completo-96c06",
+            storageBucket: "projeto-completo-96c06.appspot.com",
+            messagingSenderId: "100970618515",
+            appId: "1:100970618515:web:01ff6d667c0d542abe3766"
         };
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    });
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-    function gerarCodigoVoucher() {
-        const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
-        return `ECO-${randomChars}`;
-    }
+        const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado'));
 
-    function renderizarHistoricoEVouchers() {
-        const historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-        const historicoContainer = document.getElementById('historico-lista');
-        const vouchersContainer = document.getElementById('vouchers-lista');
-
-        historicoContainer.innerHTML = '';
-        vouchersContainer.innerHTML = '';
-
-        if (historico.length === 0) {
-            historicoContainer.innerHTML = '<p class="empty-message">Nenhum agendamento realizado ainda.</p>';
-            vouchersContainer.innerHTML = '<p class="empty-message">Nenhum voucher gerado.</p>';
-            return;
+        if (!usuarioLogado) {
+            alert('Você precisa estar logado para acessar esta página.');
+            window.location.href = 'login.html';
         }
 
-        historico.slice().reverse().forEach(agendamento => {
-            const dataFormatada = new Date(agendamento.dataHora).toLocaleString('pt-BR', { dateStyle: 'full', timeStyle: 'short' });
-
-            const historicoItem = document.createElement('div');
-            historicoItem.className = 'history-item';
-            // EXIBIÇÃO DO ENDEREÇO NO HISTÓRICO
-            historicoItem.innerHTML = `
-                <strong>Produto:</strong> ${agendamento.produto}<br>
-                <strong>Endereço da Coleta:</strong> ${agendamento.endereco}, ${agendamento.numero} - CEP: ${agendamento.cep}<br>
-                <strong>Data:</strong> ${dataFormatada}<br>
-                <strong>Descrição:</strong> ${agendamento.descricao || 'Nenhuma'}
-            `;
-            historicoContainer.appendChild(historicoItem);
-
-            const voucherItem = document.createElement('div');
-            voucherItem.className = 'voucher-item';
-            voucherItem.innerHTML = `
-                <h3>Voucher pelo descarte de: ${agendamento.produto}</h3>
-                <p>Use o código: <span class="code">${agendamento.voucher}</span></p>
-            `;
-            vouchersContainer.appendChild(voucherItem);
-        });
-    }
-
-    function agendarColeta() {
-      // CAPTURA DOS NOVOS CAMPOS DE ENDEREÇO
-      const cep = document.getElementById('cep').value;
-      const endereco = document.getElementById('endereco').value;
-      const numero = document.getElementById('numero').value;
-      const dataHoraValor = document.getElementById('dataHora').value;
-      const produto = document.getElementById('produto').value;
-
-      // VALIDAÇÃO DOS CAMPOS
-      if (!produto || !cep || !endereco || !numero || !dataHoraValor) {
-        alert('Por favor, preencha todos os campos do agendamento, incluindo o endereço completo.');
-        return;
-      }
-      
-      const dataAgendada = new Date(dataHoraValor);
-      const diaDaSemana = dataAgendada.getDay();
-      const hora = dataAgendada.getHours();
-
-      if (diaDaSemana === 0) {
-          alert("Desculpe, não fazemos coletas aos domingos.");
-          return;
-      }
-      if (diaDaSemana === 6 && (hora < 9 || hora >= 14)) {
-          alert("Aos sábados, nosso horário de coleta é das 09:00 às 14:00.");
-          return;
-      }
-      if (diaDaSemana > 0 && diaDaSemana < 6 && (hora < 9 || hora >= 19)) {
-          alert("Nosso horário de coleta durante a semana é das 09:00 às 19:00.");
-          return;
-      }
-
-      // SALVANDO O ENDEREÇO NO OBJETO DE AGENDAMENTO
-      const novoAgendamento = {
-          produto: produto,
-          cep: cep,
-          endereco: endereco,
-          numero: numero,
-          dataHora: dataHoraValor,
-          descricao: document.getElementById('descricao').value,
-          voucher: gerarCodigoVoucher()
-      };
-
-      const historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-      historico.push(novoAgendamento);
-      localStorage.setItem('historicoAgendamentos', JSON.stringify(historico));
-      
-      alert('Coleta agendada com sucesso! Um novo voucher foi gerado.');
-      
-      // LIMPEZA DOS CAMPOS DO FORMULÁRIO
-      document.getElementById('produto').value = '';
-      document.getElementById('cep').value = '';
-      document.getElementById('endereco').value = '';
-      document.getElementById('numero').value = '';
-      document.getElementById('dataHora').value = '';
-      document.getElementById('descricao').value = '';
-
-      renderizarHistoricoEVouchers();
-    }
-    
-    // --- NOVO: FUNÇÃO PARA BUSCAR ENDEREÇO PELO CEP (API ViaCEP) ---
-    const cepInput = document.getElementById('cep');
-    cepInput.addEventListener('blur', async () => {
-        const cep = cepInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-        if (cep.length !== 8) {
-            return;
+        function logout() {
+            if (confirm("Deseja realmente sair?")) {
+                sessionStorage.removeItem('usuarioLogado');
+                window.location.href = 'login.html';
+            }
         }
+        
+        async function agendarColeta(event) {
+            event.preventDefault(); // Previne o recarregamento da página
+            const novoAgendamento = {
+                produto: document.getElementById('produto').value,
+                cep: document.getElementById('cep').value,
+                endereco: document.getElementById('endereco').value,
+                numero: document.getElementById('numero').value,
+                dataHora: document.getElementById('dataHora').value,
+                descricao: document.getElementById('descricao').value,
+                clienteId: usuarioLogado.id,
+                clienteNome: usuarioLogado.nome,
+                clienteEmail: usuarioLogado.email,
+                status: 'Em Progresso'
+            };
 
-        try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
-
-            if (data.erro) {
-                alert('CEP não encontrado. Por favor, verifique e digite o endereço manualmente.');
+            if (!novoAgendamento.produto || !novoAgendamento.cep || !novoAgendamento.endereco || !novoAgendamento.numero || !novoAgendamento.dataHora) {
+                alert('Por favor, preencha todos os campos para agendar.');
                 return;
             }
 
-            document.getElementById('endereco').value = data.logradouro;
-            // Opcional: preencher outros campos como bairro, cidade, etc.
-            // document.getElementById('bairro').value = data.bairro; 
-            
-            // Foca no campo de número para o usuário preencher em seguida
-            document.getElementById('numero').focus();
-
-        } catch (error) {
-            console.error('Erro ao buscar o CEP:', error);
-            alert('Não foi possível buscar o CEP. Por favor, digite o endereço manualmente.');
+            try {
+                await db.collection("agendamentos").add(novoAgendamento);
+                alert('Coleta agendada com sucesso!');
+                document.getElementById('form-coleta').reset();
+                renderizarHistorico();
+            } catch (error) {
+                console.error("Erro ao agendar coleta: ", error);
+            }
         }
-    });
+        
+        async function renderizarHistorico() {
+            const historicoContainer = document.getElementById('historico-lista');
+            historicoContainer.innerHTML = '<p class="empty-message">Carregando histórico...</p>';
 
-    window.onload = function () {
-      const perfil = JSON.parse(localStorage.getItem('perfil'));
-      if (perfil) {
-        document.getElementById('nome').value = perfil.nome;
-        document.getElementById('email').value = perfil.email;
-        document.getElementById('telefone').value = perfil.telefone;
-        exibirDadosPerfil(perfil);
-      }
+            try {
+                const querySnapshot = await db.collection("agendamentos")
+                    .where("clienteId", "==", usuarioLogado.id)
+                    .orderBy("dataHora", "desc")
+                    .get();
+                
+                historicoContainer.innerHTML = '';
+                if (querySnapshot.empty) {
+                    historicoContainer.innerHTML = '<p class="empty-message">Nenhum agendamento encontrado.</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const agendamento = doc.data();
+                    const dataFormatada = new Date(agendamento.dataHora).toLocaleString('pt-BR');
+                    const enderecoCompleto = `${agendamento.endereco}, ${agendamento.numero}`;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'history-item';
+                    itemDiv.innerHTML = `
+                        <strong>Produto:</strong> ${agendamento.produto}<br>
+                        <strong>Endereço:</strong> ${enderecoCompleto}<br>
+                        <strong>Data da Coleta:</strong> ${dataFormatada}<br>
+                        <strong>Status:</strong> ${agendamento.status}
+                    `;
+                    historicoContainer.appendChild(itemDiv);
+                });
+            } catch (error) {
+                 console.error("Erro ao buscar histórico: ", error);
+                 historicoContainer.innerHTML = '<p class="empty-message">Erro ao carregar o histórico.</p>';
+            }
+        }
 
-      const foto = localStorage.getItem('fotoPerfil');
-      if (foto) {
-        document.getElementById('profileImage').src = foto;
-      }
-      
-      renderizarHistoricoEVouchers();
-    };
-  </script>
+        document.getElementById('form-coleta').addEventListener('submit', agendarColeta);
+
+        window.onload = function() {
+            document.getElementById('displayName').textContent = usuarioLogado.nome;
+            document.getElementById('displayEmail').textContent = usuarioLogado.email;
+            renderizarHistorico();
+        };
+    </script>
 </body>
 </html>

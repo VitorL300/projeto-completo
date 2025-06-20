@@ -6,161 +6,29 @@
     <title>Painel do Administrador</title>
     <style>
         :root {
-            --primary-color: #9dc08b;
-            --secondary-color: #6c8a66;
-            --dark-color: #3a4d39;
-            --light-bg: #ecf7e3;
-            --text-color: #1d1d1d;
-            --white-color: #ffffff;
-            --border-color: #d1d1d1;
-            --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --info-color: #17a2b8;
+            --primary-color: #9dc08b; --secondary-color: #6c8a66; --dark-color: #3a4d39; --light-bg: #ecf7e3; --text-color: #1d1d1d; --white-color: #ffffff; --border-color: #d1d1d1; --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08); --success-color: #28a745; --warning-color: #ffc107; --danger-color: #dc3545; --info-color: #17a2b8;
         }
-        body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-        }
-        header {
-            background-color: var(--primary-color);
-            padding: 15px 30px;
-            color: var(--white-color);
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        .logout-btn {
-            background-color: transparent;
-            border: 1px solid var(--white-color);
-            color: var(--white-color);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
-        }
-        .logout-btn:hover {
-            background-color: var(--white-color);
-            color: var(--primary-color);
-        }
-        .admin-wrapper {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 30px;
-        }
+        body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--light-bg); color: var(--text-color); }
+        header { background-color: var(--primary-color); padding: 15px 30px; color: var(--white-color); box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+        .logout-btn { background-color: transparent; border: 1px solid var(--white-color); color: var(--white-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease-in-out; }
+        .logout-btn:hover { background-color: var(--white-color); color: var(--primary-color); }
+        .admin-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 30px; }
         .main-content { flex: 3; }
         .sidebar { flex: 1; }
-        section {
-            background-color: var(--white-color);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: var(--dark-color);
-            margin-top: 0;
-            margin-bottom: 24px;
-            font-weight: 600;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 16px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .stat-card {
-            background-color: #f9f9f9;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 5px solid var(--primary-color);
-        }
-        .stat-card h3 {
-            margin: 0 0 5px 0;
-            font-size: 1rem;
-            color: #555;
-        }
-        .stat-card p {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
+        section { background-color: var(--white-color); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; margin-bottom: 30px; }
+        h2 { color: var(--dark-color); margin-top: 0; margin-bottom: 24px; font-weight: 600; border-bottom: 1px solid #eee; padding-bottom: 16px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stat-card { background-color: #f9f9f9; border-radius: 12px; padding: 20px; border-left: 5px solid var(--primary-color); }
+        .stat-card h3 { margin: 0 0 5px 0; font-size: 1rem; color: #555; }
+        .stat-card p { margin: 0; font-size: 2rem; font-weight: 600; color: var(--dark-color); }
         .table-wrapper { overflow-x: auto; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-        .status {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 0.8rem;
-            color: var(--white-color);
-            text-align: center;
-        }
-        .status.pago { background-color: var(--success-color); }
-        .status.pendente { background-color: var(--warning-color); color: var(--dark-color); }
-        select.status-select {
-            padding: 6px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: #fff;
-            font-weight: 500;
-        }
-        select.status-select[data-status="Finalizado"] { border-color: var(--success-color); }
-        select.status-select[data-status="Cancelado"] { border-color: var(--danger-color); }
-        select.status-select[data-status="Em Progresso"] { border-color: var(--info-color); }
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            border-radius: 6px;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
-        .btn-danger { background-color: var(--danger-color); }
-        .btn-small:hover { opacity: 0.85; }
-        .customer-list .customer-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f8f9fa; font-weight: 600; color: var(--dark-color); }
+        .customer-list .customer-item { display: flex; align-items: center; gap: 15px; padding: 10px 0; border-bottom: 1px solid #eee; }
         .customer-list .customer-item:last-child { border-bottom: none; }
-        .customer-list img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+        .customer-list img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
         .customer-list .customer-info h4 { margin: 0; font-size: 1rem; }
         .customer-list .customer-info p { margin: 0; font-size: 0.85rem; color: #777; }
         .empty-message { text-align: center; color: #777; padding: 20px; }
@@ -182,11 +50,11 @@
                         <p>R$ 1.250</p>
                     </div>
                     <div class="stat-card">
-                        <h3>Vendas (Coletas)</h3>
+                        <h3>Coletas Agendadas</h3>
                         <p id="total-coletas">0</p>
                     </div>
                     <div class="stat-card">
-                        <h3>Views (Clientes)</h3>
+                        <h3>Total de Clientes</h3>
                         <p id="total-clientes">0</p>
                     </div>
                 </div>
@@ -198,10 +66,9 @@
                         <thead>
                             <tr>
                                 <th>Cliente</th>
+                                <th>Email</th>
                                 <th>Produto</th>
-                                <th>Pagamento</th>
-                                <th>Status</th>
-                                <th>Ações</th>
+                                <th>Endereço</th>
                             </tr>
                         </thead>
                         <tbody id="history-table-body">
@@ -212,101 +79,87 @@
         </main>
         <aside class="sidebar">
             <section id="recent-customers">
-                <h2>Clientes Recentes</h2>
+                <h2>Clientes Cadastrados</h2>
                 <div id="customer-list" class="customer-list">
                 </div>
             </section>
         </aside>
     </div>
 
-<script>
-    function logout() {
-        if (confirm("Você tem certeza que deseja sair?")) {
-            // O link aponta para 'index.html' (minúsculas)
-            window.location.href = 'index.html'; 
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
+            authDomain: "projeto-completo-96c06.firebaseapp.com",
+            projectId: "projeto-completo-96c06",
+            storageBucket: "projeto-completo-96c06.appspot.com",
+            messagingSenderId: "100970618515",
+            appId: "1:100970618515:web:01ff6d667c0d542abe3766"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function logout() {
+            if (confirm("Você tem certeza que deseja sair?")) {
+                window.location.href = 'index.html'; 
+            }
         }
-    }
 
-    function atualizarStatus(selectElement, agendamentoId) {
-        const novoStatus = selectElement.value;
-        selectElement.setAttribute('data-status', novoStatus);
-        alert(`Status do agendamento ${agendamentoId} atualizado para "${novoStatus}"! (Simulação)`);
-    }
+        async function carregarDadosAdmin() {
+            try {
+                const [agendamentosSnapshot, usuariosSnapshot] = await Promise.all([
+                    db.collection("agendamentos").get(),
+                    db.collection("usuarios").get()
+                ]);
 
-    function cancelarColeta(agendamentoIndex) {
-        if (confirm(`Você tem certeza que deseja cancelar esta coleta? A ação não pode ser desfeita.`)) {
-            let historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-            historico.splice(agendamentoIndex, 1);
-            localStorage.setItem('historicoAgendamentos', JSON.stringify(historico));
-            alert('Coleta cancelada com sucesso!');
-            location.reload();
-        }
-    }
-
-    window.onload = function () {
-        const perfilCliente = JSON.parse(localStorage.getItem('perfil'));
-        const historicoColetas = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-
-        document.getElementById('total-coletas').textContent = historicoColetas.length;
-        document.getElementById('total-clientes').textContent = perfilCliente ? '1' : '0';
-
-        const tableBody = document.getElementById('history-table-body');
-        tableBody.innerHTML = '';
-
-        if (historicoColetas.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5" class="empty-message">Nenhuma coleta agendada encontrada.</td></tr>';
-        } else {
-            historicoColetas.forEach((agendamento, index) => {
-                const newRow = document.createElement('tr');
-                const pagamentoStatus = index % 2 === 0 ? 'Pago' : 'Pendente';
-                const pagamentoClass = pagamentoStatus.toLowerCase();
+                document.getElementById('total-coletas').textContent = agendamentosSnapshot.size;
+                document.getElementById('total-clientes').textContent = usuariosSnapshot.size;
                 
-                const statusOptions = ['Em Progresso', 'Finalizado', 'Cancelado'];
-                let optionsHtml = '';
-                statusOptions.forEach(opt => {
-                    const isSelected = opt === 'Em Progresso' ? 'selected' : '';
-                    optionsHtml += `<option value="${opt}" ${isSelected}>${opt}</option>`;
-                });
+                const tableBody = document.getElementById('history-table-body');
+                tableBody.innerHTML = '';
+                if(agendamentosSnapshot.empty) {
+                    tableBody.innerHTML = '<tr><td colspan="4" class="empty-message">Nenhuma coleta agendada.</td></tr>';
+                } else {
+                    agendamentosSnapshot.forEach(doc => {
+                        const agendamento = doc.data();
+                        const enderecoCompleto = `${agendamento.endereco}, ${agendamento.numero} - ${agendamento.cep}`;
+                        tableBody.innerHTML += `
+                            <tr>
+                                <td>${agendamento.clienteNome || 'N/A'}</td>
+                                <td>${agendamento.clienteEmail || 'N/A'}</td>
+                                <td>${agendamento.produto}</td>
+                                <td>${enderecoCompleto}</td>
+                            </tr>
+                        `;
+                    });
+                }
 
-                newRow.innerHTML = `
-                    <td>${perfilCliente ? perfilCliente.nome : 'Cliente Desconhecido'}</td>
-                    <td>${agendamento.produto}</td>
-                    <td><span class="status ${pagamentoClass}">${pagamentoStatus}</span></td>
-                    <td>
-                        <select class="status-select" data-status="Em Progresso" onchange="atualizarStatus(this, ${index})">
-                            ${optionsHtml}
-                        </select>
-                    </td>
-                    <td>
-                        <button class="btn-small btn-danger" onclick="cancelarColeta(${index})">
-                            Cancelar
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(newRow);
-            });
+                const customerList = document.getElementById('customer-list');
+                customerList.innerHTML = '';
+                if(usuariosSnapshot.empty) {
+                    customerList.innerHTML = '<p class="empty-message">Nenhum cliente cadastrado.</p>';
+                } else {
+                    usuariosSnapshot.forEach(doc => {
+                        const cliente = doc.data();
+                        customerList.innerHTML += `
+                            <div class="customer-item">
+                                <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e" alt="Ícone de Perfil">
+                                <div class="customer-info">
+                                    <h4>${cliente.nome}</h4>
+                                    <p>${cliente.email}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error("Erro ao carregar dados do admin: ", error);
+                alert("Não foi possível carregar os dados. Verifique o console (F12) para mais detalhes.");
+            }
         }
-
-        const customerList = document.getElementById('customer-list');
-        customerList.innerHTML = '';
-
-        if (perfilCliente) {
-            const fotoPerfil = localStorage.getItem('fotoPerfil') || "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e";
-            
-            const customerItem = `
-                <div class="customer-item">
-                    <img src="${fotoPerfil}" alt="Foto do Cliente">
-                    <div class="customer-info">
-                        <h4>${perfilCliente.nome}</h4>
-                        <p>${perfilCliente.email}</p>
-                    </div>
-                </div>
-            `;
-            customerList.innerHTML = customerItem + customerItem + customerItem; 
-        } else {
-            customerList.innerHTML = '<p class="empty-message">Nenhum cliente recente.</p>';
-        }
-    };
-</script>
+        window.onload = carregarDadosAdmin;
+    </script>
 </body>
 </html>
