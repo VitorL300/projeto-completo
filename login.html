@@ -58,7 +58,6 @@
         .link-cadastro:hover {
             text-decoration: underline;
         }
-        /* --- NOVO: Estilo para o link de admin --- */
         .link-admin {
             margin-top: 25px;
             padding-top: 15px;
@@ -82,27 +81,19 @@
         <input type="submit" value="Entrar" id="btnLogar">
         <a href="cadastro.html" class="link-cadastro">Não tem uma conta? Cadastre-se</a>
         
-        <a href="loginAdmin.html" class="link-admin">Entrar como Administrador</a>
-    </form>
+        <a href="loginadmin.html" class="link-admin">Entrar como Administrador</a>
+        </form>
 
 <script>
-    // Adiciona o listener para o formulário de login do cliente
     document.getElementById('user-login-form').addEventListener('submit', function(event) {
         event.preventDefault();
-
-        // Pega a lista de usuários cadastrados no localStorage
         const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-        // Pega os valores digitados pelo usuário
         const loginDigitado = document.getElementById('login').value;
         const senhaDigitada = document.getElementById('senha').value;
-
-        // Procura se existe um usuário com o login e senha correspondentes
         const usuarioEncontrado = usuarios.find(user => user.login === loginDigitado && user.pass === senhaDigitada);
 
         if (usuarioEncontrado) {
             alert(`Bem-vindo, ${usuarioEncontrado.nome}!`);
-            // Redireciona para a página principal do cliente
             window.location.href = 'home.html';
         } else {
             alert('Login ou senha incorretos. Verifique seus dados ou cadastre-se.');
