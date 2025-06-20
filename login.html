@@ -5,21 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { width: 100%; height: 100%; background-color: #ecf7e3; font-family: "Poppins", sans-serif; }
-        form { width: 320px; margin: 160px auto; background-color: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.1); text-align: center; }
-        h3 { color: #3a4d39; }
-        input[type="text"], input[type="password"], input[type="submit"] { display: block; margin: 12px auto; width: 100%; padding: 10px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; }
-        #btnLogar { background-color: #9dc08b; color: white; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease; }
-        #btnLogar:hover { background-color: #7a9e6b; }
-        .link-cadastro { margin-top: 12px; display: block; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
-        .link-cadastro:hover { text-decoration: underline; }
-        .link-admin { margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; display: block; color: #555; font-size: 0.85rem; text-decoration: none; }
-        .link-admin:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
+
     <form id="user-login-form">
         <h3>Login do Cliente</h3>
         <input type="text" placeholder="Login" id="login" required>
@@ -40,7 +29,6 @@
             messagingSenderId: "100970618515",
             appId: "1:100970618515:web:01ff6d667c0d542abe3766"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
@@ -60,9 +48,7 @@
                 } else {
                     const usuario = querySnapshot.docs[0].data();
                     alert(`Bem-vindo, ${usuario.nome}!`);
-                    
                     sessionStorage.setItem('usuarioLogado', JSON.stringify({id: querySnapshot.docs[0].id, ...usuario}));
-                    
                     window.location.href = 'home.html';
                 }
             } catch (error) {
@@ -71,5 +57,6 @@
             }
         });
     </script>
+
 </body>
 </html>

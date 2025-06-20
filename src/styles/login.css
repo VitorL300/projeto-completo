@@ -1,136 +1,93 @@
+/* Estilos para as páginas de Login e Cadastro */
+* {
+    box-sizing: border-box;
+}
+
 body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #ecf7e3;
-    }
+    width: 100%;
+    height: 100vh; /* Ocupa a altura inteira da tela */
+    background-color: #ecf7e3;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
 
-    header {
-      background-color: #9dc08b;
-      padding: 20px;
-      text-align: center;
-      color: white;
-    }
+form {
+    width: 90%;
+    max-width: 380px; /* Largura máxima para telas grandes */
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
-      background-color: white;
-      border-radius: 16px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-    }
+h3 {
+    color: #3a4d39;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
 
-    h2 {
-      color: #3a4d39;
-      margin-bottom: 16px;
-    }
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"] {
+    display: block;
+    margin: 15px auto;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
 
-    section {
-      margin-bottom: 40px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 30px;
-    }
+input[type="submit"] {
+    background-color: #9dc08b;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+input[type="submit"]:hover {
+    background-color: #7a9e6b;
+}
 
-    .profile img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #ccc;
-    }
+.link-cadastro, .link-cliente {
+    margin-top: 15px;
+    display: inline-block;
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
 
-    .profile input[type="file"] {
-      margin-top: 10px;
-    }
+.link-cadastro:hover, .link-cliente:hover {
+    text-decoration: underline;
+}
 
-    .profile-fields .field-group {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 8px 0;
-    }
-    
-    .profile-fields .field-group span {
-        font-weight: bold;
-        color: #3a4d39;
-        min-width: 70px; /* Adiciona largura mínima para alinhar os campos */
-    }
+.link-admin {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    display: block;
+    color: #555;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
 
-    .profile-fields input {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
+.link-admin:hover {
+    text-decoration: underline;
+}
 
-    .btn {
-      background-color: #9dc08b;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 16px;
-    }
+/* Estilos específicos para o botão de admin */
+#btnLogarAdmin {
+    background-color: #6c8a66;
+}
 
-    .btn:hover {
-      background-color: #7a9e6b;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    select, textarea, input[type="datetime-local"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      margin-bottom: 14px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .alert {
-      background-color: #fff3cd;
-      padding: 16px;
-      border-radius: 8px;
-      border-left: 6px solid #ffca2c;
-      margin-bottom: 20px;
-    }
-
-    .voucher {
-      background-color: #e0f7fa;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      display: none;
-    }
-
-    .voucher h3 {
-      color: #00796b;
-    }
-
-    .history {
-      background-color: #f1f1f1;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-      .profile {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+#btnLogarAdmin:hover {
+    background-color: #3a4d39;
+}
