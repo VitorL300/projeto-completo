@@ -17,7 +17,7 @@
             --shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
             --success-color: #28a745;
             --warning-color: #ffc107;
-            --danger-color: #dc3545;
+            --danger-color: #dc3545; /* Vermelho para ações de cancelamento */
             --info-color: #17a2b8;
         }
 
@@ -61,7 +61,6 @@
             color: var(--primary-color);
         }
 
-        /* Layout Principal do Painel */
         .admin-wrapper {
             max-width: 1200px;
             margin: 30px auto;
@@ -95,7 +94,6 @@
             padding-bottom: 16px;
         }
 
-        /* Cards de Estatísticas */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -122,7 +120,6 @@
             color: var(--dark-color);
         }
 
-        /* Tabela de Histórico */
         .table-wrapper {
             overflow-x: auto;
         }
@@ -145,7 +142,6 @@
             color: var(--dark-color);
         }
 
-        /* Estilos para Status */
         .status {
             padding: 4px 8px;
             border-radius: 6px;
@@ -170,8 +166,23 @@
         select.status-select[data-status="Cancelado"] { border-color: var(--danger-color); }
         select.status-select[data-status="Em Progresso"] { border-color: var(--info-color); }
 
+        /* --- NOVO: Estilos para o botão de cancelar --- */
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        .btn-small:hover {
+            opacity: 0.85;
+        }
 
-        /* Sidebar de Clientes Recentes */
         .customer-list .customer-item {
             display: flex;
             align-items: center;
@@ -248,10 +259,10 @@
                                 <th>Produto</th>
                                 <th>Pagamento</th>
                                 <th>Status</th>
-                            </tr>
+                                <th>Ações</th> </tr>
                         </thead>
                         <tbody id="history-table-body">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </section>
@@ -261,7 +272,7 @@
             <section id="recent-customers">
                 <h2>Clientes Recentes</h2>
                 <div id="customer-list" class="customer-list">
-                    </div>
+                </div>
             </section>
         </aside>
     </div>
@@ -269,52 +280,60 @@
 <script>
     function logout() {
         if (confirm("Você tem certeza que deseja sair?")) {
-            // Em uma aplicação real, você invalidaria a sessão do admin no servidor.
             window.location.href = 'index.html'; 
         }
     }
 
-    // Função para atualizar o status (simulação)
     function atualizarStatus(selectElement, agendamentoId) {
         const novoStatus = selectElement.value;
         selectElement.setAttribute('data-status', novoStatus);
-        // Em um app real, aqui você faria uma chamada para o backend para salvar o novo status
         alert(`Status do agendamento ${agendamentoId} atualizado para "${novoStatus}"! (Simulação)`);
     }
 
-    // Função Principal que Roda ao Carregar a Página
+    // --- NOVO: Função para cancelar uma coleta ---
+    function cancelarColeta(agendamentoIndex) {
+        if (confirm(`Você tem certeza que deseja cancelar esta coleta? A ação não pode ser desfeita.`)) {
+            // 1. Pega o histórico atual do localStorage
+            let historico = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
+
+            // 2. Remove o item do array pelo seu índice
+            historico.splice(agendamentoIndex, 1);
+
+            // 3. Salva o array modificado de volta no localStorage
+            localStorage.setItem('historicoAgendamentos', JSON.stringify(historico));
+
+            // 4. Recarrega a página para refletir as mudanças na tabela
+            alert('Coleta cancelada com sucesso!');
+            location.reload();
+        }
+    }
+
     window.onload = function () {
-        // --- 1. Ler os dados do localStorage (simulando a busca no banco de dados) ---
         const perfilCliente = JSON.parse(localStorage.getItem('perfil'));
         const historicoColetas = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
 
-        // --- 2. Preencher os Cards de Estatísticas ---
         document.getElementById('total-coletas').textContent = historicoColetas.length;
-        document.getElementById('total-clientes').textContent = perfilCliente ? '1' : '0'; // Simula 1 cliente se houver perfil
+        document.getElementById('total-clientes').textContent = perfilCliente ? '1' : '0';
 
-        // --- 3. Preencher a Tabela de Histórico de Coletas ---
         const tableBody = document.getElementById('history-table-body');
-        tableBody.innerHTML = ''; // Limpa a tabela
+        tableBody.innerHTML = '';
 
         if (historicoColetas.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="4" class="empty-message">Nenhuma coleta agendada encontrada.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="5" class="empty-message">Nenhuma coleta agendada encontrada.</td></tr>';
         } else {
             historicoColetas.forEach((agendamento, index) => {
                 const newRow = document.createElement('tr');
-
-                // Simulação de status de pagamento (alternando entre pago e pendente)
                 const pagamentoStatus = index % 2 === 0 ? 'Pago' : 'Pendente';
                 const pagamentoClass = pagamentoStatus.toLowerCase();
                 
-                // Opções de status da coleta
                 const statusOptions = ['Em Progresso', 'Finalizado', 'Cancelado'];
                 let optionsHtml = '';
                 statusOptions.forEach(opt => {
-                    // Simula um status inicial "Em Progresso"
                     const isSelected = opt === 'Em Progresso' ? 'selected' : '';
                     optionsHtml += `<option value="${opt}" ${isSelected}>${opt}</option>`;
                 });
 
+                // --- NOVO: Adiciona a célula com o botão de cancelar ---
                 newRow.innerHTML = `
                     <td>${perfilCliente ? perfilCliente.nome : 'Cliente Desconhecido'}</td>
                     <td>${agendamento.produto}</td>
@@ -324,14 +343,18 @@
                             ${optionsHtml}
                         </select>
                     </td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="cancelarColeta(${index})">
+                            Cancelar
+                        </button>
+                    </td>
                 `;
                 tableBody.appendChild(newRow);
             });
         }
 
-        // --- 4. Preencher a Lista de Clientes Recentes ---
         const customerList = document.getElementById('customer-list');
-        customerList.innerHTML = ''; // Limpa a lista
+        customerList.innerHTML = '';
 
         if (perfilCliente) {
             const fotoPerfil = localStorage.getItem('fotoPerfil') || "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e";
@@ -345,7 +368,6 @@
                     </div>
                 </div>
             `;
-            // Adiciona o mesmo cliente várias vezes para simular uma lista
             customerList.innerHTML = customerItem + customerItem + customerItem; 
         } else {
             customerList.innerHTML = '<p class="empty-message">Nenhum cliente recente.</p>';

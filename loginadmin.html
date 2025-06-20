@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login do Administrador</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #ecf7e3;
+            font-family: "Poppins", sans-serif;
+        }
+        form {
+            width: 350px;
+            margin: 160px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-top: 5px solid #3a4d39; /* Destaque de admin */
+        }
+        h3 {
+            color: #3a4d39;
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            display: block;
+            margin: 12px auto;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        #btnLogarAdmin {
+            background-color: #6c8a66; /* Cor diferente para botão de admin */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        #btnLogarAdmin:hover {
+            background-color: #3a4d39;
+        }
+        .link-cliente {
+            margin-top: 15px;
+            display: block;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .link-cliente:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="admin-login-form">
+        <h3>Login do Administrador</h3>
+        <input type="text" placeholder="Login de Admin" id="loginAdmin" required>
+        <input type="password" placeholder="Senha de Admin" id="senhaAdmin" required>
+        <input type="submit" value="Entrar como Admin" id="btnLogarAdmin">
+        <a href="login.html" class="link-cliente">Acessar como cliente</a>
+    </form>
+
+<script>
+    // Adiciona o listener para o formulário de login do admin
+    document.getElementById('admin-login-form').addEventListener('submit', function(event) {
+        // Previne o envio padrão do formulário, que recarregaria a página
+        event.preventDefault();
+
+        // Credenciais do administrador (fixas no código para esta simulação)
+        // Em um projeto real, isso viria de um banco de dados seguro.
+        const ADMIN_USER = 'admin';
+        const ADMIN_PASS = 'admin123';
+
+        // Pega os valores digitados pelo usuário
+        const loginDigitado = document.getElementById('loginAdmin').value;
+        const senhaDigitada = document.getElementById('senhaAdmin').value;
+
+        // Validação
+        if (loginDigitado === ADMIN_USER && senhaDigitada === ADMIN_PASS) {
+            alert('Login de administrador bem-sucedido! Redirecionando...');
+            // Redireciona para a página do painel de administrador
+            window.location.href = 'admin.html';
+        } else {
+            alert('Login ou senha de administrador incorretos. Tente novamente.');
+        }
+    });
+</script>
+
+</body>
+</html>
