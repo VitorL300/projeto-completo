@@ -5,7 +5,7 @@
 
 body {
     width: 100%;
-    height: 100vh; /* Ocupa a altura inteira da tela */
+    height: 100vh;
     background-color: #ecf7e3;
     font-family: "Poppins", sans-serif;
     display: flex;
@@ -16,7 +16,7 @@ body {
 
 form {
     width: 90%;
-    max-width: 380px; /* Largura máxima para telas grandes */
+    max-width: 380px;
     background-color: #fff;
     padding: 30px 40px;
     border-radius: 16px;
@@ -57,15 +57,15 @@ input[type="submit"]:hover {
     background-color: #7a9e6b;
 }
 
-.link-cadastro, .link-cliente {
-    margin-top: 15px;
-    display: inline-block;
+.link-cadastro {
+    margin-top: 12px;
+    display: block;
     color: #0066cc;
     text-decoration: none;
     font-size: 0.95rem;
 }
 
-.link-cadastro:hover, .link-cliente:hover {
+.link-cadastro:hover {
     text-decoration: underline;
 }
 
@@ -81,13 +81,4 @@ input[type="submit"]:hover {
 
 .link-admin:hover {
     text-decoration: underline;
-}
-
-/* Estilos específicos para o botão de admin */
-#btnLogarAdmin {
-    background-color: #6c8a66;
-}
-
-#btnLogarAdmin:hover {
-    background-color: #3a4d39;
 }
