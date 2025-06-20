@@ -63,9 +63,43 @@
                 <h2>Agendar Nova Coleta</h2>
                 <label for="produto">Selecione o produto:</label>
                 <select id="produto">
-                    <option value="">-- Selecione um item --</option>
-                    <option>iPhone</option><option>Smartphone</option><option>Notebook</option><option>Outro</option>
-                </select>
+                      <option value="">-- Selecione um item --</option>
+                      <optgroup label="Dispositivos Pessoais">
+                          <option>iPhone</option>
+                          <option>Smartphone</option>
+                          <option>Notebook</option>
+                          <option>Computador</option>
+                          <option>Tablet</option>
+                          <option>Smartwatch</option>
+                          <option>Leitor de livro eletrônico (e-reader)</option>
+                      </optgroup>
+                      <optgroup label="Casa e Eletrodomésticos">
+                          <option>Máquina de lavar</option>
+                          <option>Geladeira</option>
+                          <option>Ar-condicionado</option>
+                          <option>Aspirador de pó</option>
+                          <option>Ferro elétrico</option>
+                          <option>Churrasqueira elétrica</option>
+                          <option>Aparelho de barbear</option>
+                          <option>Aparelho de depilação</option>
+                      </optgroup>
+                      <optgroup label="Entretenimento">
+                          <option>TV</option>
+                          <option>Video game</option>
+                          <option>Aparelho de som</option>
+                          <option>Aparelho de DVD</option>
+                          <option>Projetor</option>
+                          <option>Máquina fotográfica</option>
+                      </optgroup>
+                      <optgroup label="Acessórios e Periféricos">
+                          <option>Impressora</option>
+                          <option>HD externo</option>
+                          <option>Calculadora</option>
+                      </optgroup>
+                      <optgroup label="Outros">
+                          <option>Outro</option>
+                      </optgroup>
+                  </select>
                 <label for="cep">CEP:</label>
                 <input type="text" id="cep" placeholder="00000-000">
                 <div class="form-row">
