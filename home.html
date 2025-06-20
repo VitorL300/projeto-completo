@@ -45,7 +45,7 @@
             <h2>Bem-vindo(a)!</h2>
             <div class="profile">
                 <div class="profile-image-area">
-                    <img id="profileImage" src="data:image/svg+xml,..." alt="Ícone de Perfil"/>
+                    <img id="profileImage" src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c8a66'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e" alt="Ícone de Perfil"/>
                     <div id="user-display-info">
                         <h4 id="displayName">Carregando...</h4>
                         <p id="displayEmail"></p>
@@ -115,7 +115,7 @@
         }
         
         async function agendarColeta(event) {
-            event.preventDefault(); // Previne o recarregamento da página
+            event.preventDefault();
             const novoAgendamento = {
                 produto: document.getElementById('produto').value,
                 cep: document.getElementById('cep').value,
@@ -179,12 +179,16 @@
             }
         }
 
+        // Adiciona o listener ao formulário
         document.getElementById('form-coleta').addEventListener('submit', agendarColeta);
 
+        // Funções que rodam quando a página carrega
         window.onload = function() {
-            document.getElementById('displayName').textContent = usuarioLogado.nome;
-            document.getElementById('displayEmail').textContent = usuarioLogado.email;
-            renderizarHistorico();
+            if(usuarioLogado) {
+                document.getElementById('displayName').textContent = usuarioLogado.nome;
+                document.getElementById('displayEmail').textContent = usuarioLogado.email;
+                renderizarHistorico();
+            }
         };
     </script>
 </body>

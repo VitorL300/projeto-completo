@@ -6,30 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crie sua Conta</title>
     <style>
-        * { box-sizing: border-box; }
-        body { width: 100%; height: 100%; background-color: #ecf7e3; font-family: "Poppins", sans-serif; }
-        form { width: 380px; margin: 100px auto; background-color: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.1); text-align: center; }
-        h3 { color: #3a4d39; }
-        input[type="text"], input[type="email"], input[type="password"], input[type="submit"] { display: block; margin: 12px auto; width: 100%; padding: 10px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; }
-        input[type="submit"] { background-color: #9dc08b; color: white; border: none; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; }
-        input[type="submit"]:hover { background-color: #7a9e6b; }
-        a { margin-top: 12px; display: inline-block; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
-        a:hover { text-decoration: underline; }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #ecf7e3;
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        form {
+            width: 380px;
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h3 {
+            color: #3a4d39;
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            display: block;
+            margin: 15px auto;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #9dc08b;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #7a9e6b;
+        }
+        a {
+            margin-top: 15px;
+            display: inline-block;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+
     <form id="cadastro-form">
-        <h3>Crie sua Conta</h3>
-        <input type="text" id="nome" placeholder="Nome Completo" required>
-        <input type="email" id="email" placeholder="E-mail" required>
-        <input type="text" id="login" placeholder="Login (nome de usuário)" required>
+        <h3>Cadastro</h3>
+        <input type="text" id="nome" placeholder="Nome completo" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="login" placeholder="Login" required>
         <input type="password" id="senha" placeholder="Senha" required>
         <input type="submit" value="Cadastrar">
-        <a href="login.html">Já tem uma conta? Faça login</a>
+        <a href="login.html">Já tem conta? Fazer login</a>
     </form>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
@@ -40,10 +91,13 @@
             appId: "1:100970618515:web:01ff6d667c0d542abe3766"
         };
 
+        // Inicializa o Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        document.getElementById('cadastro-form').addEventListener('submit', async function(event) {
+        const formCadastro = document.getElementById('cadastro-form');
+
+        formCadastro.addEventListener('submit', async function(event) {
             event.preventDefault();
 
             const novoUsuario = {
@@ -54,12 +108,15 @@
             };
 
             try {
-                await db.collection("usuarios").add(novoUsuario);
+                const docRef = await db.collection("usuarios").add(novoUsuario);
+                console.log("Usuário cadastrado com sucesso! ID: ", docRef.id);
+                
                 alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
                 window.location.href = 'login.html';
+
             } catch (error) {
-                console.error("Erro ao cadastrar usuário: ", error);
-                alert('Ocorreu um erro ao realizar o cadastro. Tente novamente.');
+                console.error("Erro ao cadastrar usuário no Firestore: ", error);
+                alert('Ocorreu um erro ao realizar o cadastro. Verifique o console (F12) para mais detalhes.');
             }
         });
     </script>
