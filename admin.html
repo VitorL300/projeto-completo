@@ -13,9 +13,9 @@
         header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; }
         .logout-btn { background-color: transparent; border: 1px solid var(--white-color); color: var(--white-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease-in-out; }
         .logout-btn:hover { background-color: var(--white-color); color: var(--primary-color); }
-        .admin-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 30px; }
-        .main-content { flex: 3; }
-        .sidebar { flex: 1; }
+        .admin-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 30px; flex-wrap: wrap; }
+        .main-content { flex: 3; min-width: 300px; }
+        .sidebar { flex: 1; min-width: 280px; }
         section { background-color: var(--white-color); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; margin-bottom: 30px; }
         h2 { color: var(--dark-color); margin-top: 0; margin-bottom: 24px; font-weight: 600; border-bottom: 1px solid #eee; padding-bottom: 16px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
@@ -46,10 +46,6 @@
                 <h2>Visão Geral</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <h3>Saldo (Receita)</h3>
-                        <p>R$ 1.250</p>
-                    </div>
-                    <div class="stat-card">
                         <h3>Coletas Agendadas</h3>
                         <p id="total-coletas">0</p>
                     </div>
@@ -72,7 +68,7 @@
                             </tr>
                         </thead>
                         <tbody id="history-table-body">
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </section>
@@ -81,14 +77,16 @@
             <section id="recent-customers">
                 <h2>Clientes Cadastrados</h2>
                 <div id="customer-list" class="customer-list">
-                </div>
+                    </div>
             </section>
         </aside>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+
     <script>
+        // Substitua pelas suas credenciais reais do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBxAMvraU-gw67cDhMCePkBaHeo1iOW5-o",
             authDomain: "projeto-completo-96c06.firebaseapp.com",
@@ -109,14 +107,17 @@
 
         async function carregarDadosAdmin() {
             try {
+                // Busca os dados das coleções 'agendamentos' e 'usuarios'
                 const [agendamentosSnapshot, usuariosSnapshot] = await Promise.all([
                     db.collection("agendamentos").get(),
-                    db.collection("usuarios").get()
+                    db.collection("usuarios").get() // VERIFIQUE: O nome deve ser 'usuarios', igual ao Firebase
                 ]);
 
+                // Preenche os cards de estatísticas
                 document.getElementById('total-coletas').textContent = agendamentosSnapshot.size;
                 document.getElementById('total-clientes').textContent = usuariosSnapshot.size;
                 
+                // Preenche a tabela de histórico de coletas
                 const tableBody = document.getElementById('history-table-body');
                 tableBody.innerHTML = '';
                 if(agendamentosSnapshot.empty) {
@@ -124,18 +125,19 @@
                 } else {
                     agendamentosSnapshot.forEach(doc => {
                         const agendamento = doc.data();
-                        const enderecoCompleto = `${agendamento.endereco}, ${agendamento.numero} - ${agendamento.cep}`;
+                        const enderecoCompleto = `${agendamento.endereco || ''}, ${agendamento.numero || ''} - ${agendamento.cep || ''}`;
                         tableBody.innerHTML += `
                             <tr>
                                 <td>${agendamento.clienteNome || 'N/A'}</td>
                                 <td>${agendamento.clienteEmail || 'N/A'}</td>
-                                <td>${agendamento.produto}</td>
+                                <td>${agendamento.produto || 'N/A'}</td>
                                 <td>${enderecoCompleto}</td>
                             </tr>
                         `;
                     });
                 }
 
+                // Preenche a lista de clientes cadastrados
                 const customerList = document.getElementById('customer-list');
                 customerList.innerHTML = '';
                 if(usuariosSnapshot.empty) {
@@ -159,6 +161,8 @@
                 alert("Não foi possível carregar os dados. Verifique o console (F12) para mais detalhes.");
             }
         }
+
+        // Roda a função principal quando a página carrega
         window.onload = carregarDadosAdmin;
     </script>
 </body>
